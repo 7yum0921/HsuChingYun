@@ -1,0 +1,1316 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    overflow-x: hidden;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+body::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+/* 固定導航欄 */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.logo {
+    color: #333;
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.logo:hover {
+    color: #ff6b35;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    position: relative;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+    padding: 0.5rem 1.2rem;
+    border-radius: 25px;
+    position: relative;
+    z-index: 2;
+}
+
+.nav-links a.active {
+    color: white;
+}
+
+.nav-indicator {
+    position: absolute;
+    background-color: #ff6b35;
+    border-radius: 25px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+}
+
+.theme-toggle {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #333;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.theme-toggle:hover {
+    border-color: #ff6b35;
+    color: #ff6b35;
+}
+
+/* 頁面容器 */
+.page {
+    margin-top: 80px;
+    min-height: calc(100vh - 80px);
+    display: none;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.page::-webkit-scrollbar {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+/* 首頁樣式 */
+.home-page {
+    padding: 4rem 2rem;
+}
+
+.hero-section {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.profile-image-container {
+    width: 280px;
+    height: 280px;
+    margin: 0 auto 3rem;
+}
+
+.profile-image {
+  width: 100%;
+  height: 100%;
+  perspective: 1000px; /* 讓翻轉有立體感 */
+  position: relative;
+    overflow: hidden;   /* 確保頭不會被切 */
+
+}
+
+.flip-card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.8s ease;
+}
+
+.profile-image:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.profile-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  backface-visibility: hidden; /* 背面隱藏 */
+  border-radius: 50%; /* 保持圓形外觀 */
+}
+
+/* 正面 */
+.default-img {
+  transform: rotateY(0deg);
+}
+
+/* 背面 */
+.hover-img {
+  transform: rotateY(180deg);
+}
+
+.greeting {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.name-highlight {
+    color: #ff6b35;
+}
+
+.description {
+    font-size: 1.3rem;
+    color: #666;
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+}
+
+.tags {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.tag {
+    background-color: white;
+    border: 2px solid #ddd;
+    padding: 0.7rem 1.5rem;
+    border-radius: 25px;
+    font-weight: 500;
+    color: #333;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.tag:hover {
+    border-color: #ff6b35;
+    color: #ff6b35;
+    transform: translateY(-2px);
+}
+
+/* About 頁面樣式 */
+.about-page {
+    margin: 0 auto;
+}
+
+.about-content {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    margin-bottom: 4rem;
+    padding-top: 118pt;
+    padding-left: 95px;
+    padding-bottom: 118px;
+    padding-right: 95px;
+    background-color: #fff;
+    text-align: justify;
+}
+
+.about-profile {
+    flex: 0 0 300px;
+}
+
+.about-profile-image {
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    background-color: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    font-size: 1rem;
+}
+
+.about-info {
+    flex: 1;
+}
+
+.about-title {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.about-title h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #333;
+}
+
+.about-tags {
+    display: flex;
+    gap: 0.6rem;
+}
+
+.about-tag {
+    background: #fff;
+    border: 2px solid #ddd;
+    border-radius: 20px;
+    padding: 0.4rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.about-description,
+.about-background {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #444;
+    margin-bottom: 1.2rem;
+}
+/* ====================================教育和工作經驗=================================== */
+
+.experience-section {
+    display: flex;
+    gap: 2rem;
+    padding-left: 95px;
+    padding-bottom: 50px; /* 減少底部 padding 為 ADVANTAGES 留空間 */
+    padding-right: 95px;
+}
+
+.education-block,
+.work-block {
+    flex: 1;
+    padding: 2rem;
+}
+
+/* 區塊標題 */
+.block-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+}
+
+/* 項目設計 */
+.experience-item {
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+}
+
+.experience-item:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.experience-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.experience-info {
+    flex: 1;
+}
+
+.experience-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.3rem;
+}
+
+.experience-subtitle {
+    font-size: 0.95rem;
+    color: #666;
+}
+
+.experience-type {
+    display: inline-block;
+    font-size: 0.75rem;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 0.2rem 0.6rem;
+    margin-left: 0.6rem;
+    color: #666;
+}
+
+/* 修正 EDUCATION 區塊中橘點位置，使其與 WORK 對齊 */
+.education-block .work-dot {
+    width: 14px;
+    height: 14px;
+    background-color: #ff6b35;
+    border-radius: 50%;
+    margin-right: 1px;
+    flex-shrink: 0;
+    position: relative;
+    top: 15px; /* ↓ 調整垂直對齊 */
+}
+
+/* ====================================Work 區塊樣式=================================== */
+
+.work-item {
+    margin-bottom: 1.5rem;
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.work-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    min-height: 80px;
+}
+
+.work-header-left {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+}
+
+.work-dot {
+    width: 14px;
+    height: 14px;
+    background-color: #ff6b35;
+    border-radius: 50%;
+    margin-right: 16px;
+    flex-shrink: 0;
+}
+
+.work-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.work-company {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #111;
+    margin-bottom: 4px;
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+.work-role {
+    font-size: 0.95rem;
+    color: #666;
+    line-height: 1.3;
+    word-break: break-word;
+}
+
+.work-header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.work-period {
+    font-size: 0.9rem;
+    color: #999;
+    background: #f5f5f5;
+    padding: 0.3rem 0.8rem;
+    border-radius: 12px;
+}
+
+.dropdown-arrow {
+    color: #ff6b35;
+    transition: transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+}
+
+.dropdown-arrow.open {
+    transform: rotate(180deg);
+}
+
+/* =============================下拉展開內容============================= */
+.work-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+.work-details.open {
+    max-height: 500px;
+    padding: 0 24px 24px 54px;
+}
+
+.work-details p {
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+.work-details strong {
+    color: #ff6b35;
+    font-weight: 600;
+}
+
+.work-details ul {
+    margin: 0;
+    padding-left: 16px;
+}
+
+.work-details li {
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.5;
+}
+/* ====================================ADVANTAGES 區域樣式=================================== */
+
+
+.advantages-section {
+    background-color: #ffffff;
+    padding: 6rem;
+    margin: 0;
+}
+
+.advantages-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #333;
+    text-align: center;
+    margin-bottom: 4rem;
+    text-transform: uppercase;
+}
+
+.advantages-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.advantage-item {
+    background: #f6f6f6;
+    border-radius: 20px;
+    padding: 2.5rem;
+    text-align: center;
+    /* box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.advantage-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+}
+
+.advantage-icon {
+    width: 80px;
+    height: 80px;
+    background: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    color: #ff6b35;
+}
+
+.advantage-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+
+.advantage-description {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.6;
+    text-align: justify;
+    flex: 1;
+}
+
+/* ====================================互動標籤區==================================== */
+
+        .physics-about-section {
+            background-color: #f0f0f0;
+            padding: 4rem 2rem;
+            min-height: 80vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .physics-about-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .physics-about-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .physics-about-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .ux-dna-underline {
+            text-decoration: underline;
+            text-decoration-thickness: 2px;
+            text-underline-offset: 4px;
+        }
+
+        .legend {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            position: absolute;
+            left: 2rem;
+            top: 12rem;
+            z-index: 10;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .legend-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+        }
+
+        .legend-dot.tools {
+         border: 2px solid #333;
+        background-color: #ff6b35;
+        }
+
+        .legend-dot.traits {
+            background-color: #dadada;
+            border: 2px solid #333;
+        }
+
+        .legend-dot.methods {
+            background-color: #fff;
+            border: 2px solid #333;
+        }
+
+        #physics-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+        }
+
+        .physics-tag {
+            position: absolute;
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            font-weight: 500;
+            font-size: 1.5rem;
+            cursor: grab;
+            user-select: none;
+            transition: transform 0.1s ease;
+            white-space: nowrap;
+            z-index: 6;
+        }
+
+        .physics-tag:active {
+            cursor: grabbing;
+            transform: scale(1.05);
+        }
+
+        .physics-tag.tools {
+         border: 2px solid #333;
+        background-color: #ff6b35;
+            color: white;
+        }
+
+        .physics-tag.traits {
+            background-color: #dadada;
+            border: 2px solid #333;
+            color: white;
+        }
+
+        .physics-tag.methods {
+            background-color: white;
+            color: #333;
+            border: 2px solid #333;
+        }
+
+
+
+
+
+
+
+
+/* ====================================Projects 頁面樣式==================================== */
+.projects-page {
+    margin: 0 auto;
+    background-color: #f5f5f5;
+}
+
+.projects-header {
+    background-color: white;
+    padding: 4rem 6rem 3rem;
+    text-align: center;
+}
+
+.projects-title {
+    padding-top: 56px;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+}
+
+.projects-subtitle {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 3rem;
+}
+
+.project-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.project-link:hover .project-card {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+
+.filter-highlight {
+    color: #000000;
+    font-weight: 600;
+    background-color: #ffffff;
+    padding: 0.5rem 0.8rem;
+    border-radius: 25px;
+    border: 2px solid #000000;
+    margin: 0 0.3rem;
+}
+
+/* 篩選按鈕 */
+.filter-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+}
+
+.filter-btn {
+    background-color: white;
+    border: 2px solid #4a4a4a;
+    padding: 0.7rem 1.5rem;
+    border-radius: 25px;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+}
+
+.filter-btn:hover {
+    border-color: #ff6b35;
+    color: #ff6b35;
+    transform: translateY(-2px);
+}
+
+.filter-btn.active {
+    background-color: #ff6b35;
+    border-color: #ff6b35;
+    color: white;
+}
+
+.project-count {
+    font-size: 1.1rem;
+    color: #ff6b35;
+    font-weight: 800;
+}
+
+/* 專案網格 */
+.projects-grid {
+    padding: 3rem 6rem 6rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+/* ====================================專案卡片==================================== */
+
+.project-card {
+    background-color: white;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    position: relative; /* 🔑 讓 badge 可定位 */
+
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.project-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background-color: rgba(159, 159, 159, 0.3); /* 半透明橘底 */
+  color: #fff; /* 白色文字 */
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+  border: 1.5px solid #ffffff; /* 橘色邊框 */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+  text-transform: uppercase;
+  backdrop-filter: blur(2px); /* 增添玻璃感，可省略 */
+}
+
+.project-image {
+    width: 100%;
+    height: 300px;
+    background-color: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.project-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* ⭐ 核心：保持比例裁切填滿 */
+  display: block;
+}
+
+.project-placeholder {
+    color: #999;
+    font-size: 1rem;
+}
+
+.project-info {
+    padding: 1.5rem;
+}
+
+.project-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+.project-description {
+    color: #666;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+/* 專案標籤 */
+.project-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.project-tag {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    color: #6c757d;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* 隱藏被篩選的項目 */
+.project-card.hidden {
+    display: none;
+}
+
+/* 響應式設計 - ADVANTAGES */
+@media (max-width: 1024px) {
+    .advantages-section {
+        padding: 4rem 3rem;
+    }
+    
+    .advantages-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2.5rem;
+    }
+    
+    .advantage-item {
+        padding: 2rem;
+        min-height: 280px;
+    }
+    
+    .advantages-title {
+        font-size: 2.2rem;
+        margin-bottom: 3rem;
+    }
+    
+    /* 確保平板版本下拉選單箭頭保持在右側 */
+    .work-header {
+        flex-wrap: nowrap;
+        align-items: center;
+    }
+    
+    .work-header-left {
+        flex: 1;
+        min-width: 0;
+    }
+    
+    .work-header-right {
+        flex-shrink: 0;
+        margin-left: 1rem;
+    }
+    /*互動標籤 */
+               .physics-tag {
+                transform: scale(0.8);
+                font-size: 1.5rem;
+                padding: 0.5rem 1rem;
+            }
+            
+            .legend {
+                left: 1.5rem;
+                top: 10rem;
+            }
+            
+            .physics-about-section {
+                padding: 3rem 1.5rem;
+            }
+        }
+
+/* ====================================響應式設計 - 通用==================================== */
+
+@media (max-width: 1200px) {
+    .projects-header,
+    .projects-grid {
+        padding-left: 4rem;
+        padding-right: 4rem;
+    }
+}
+
+@media (max-width: 968px) {
+    .about-content {
+        flex-direction: column;
+        gap: 2rem;
+        text-align: justify;
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+
+    .about-profile {
+        flex: none;
+        align-self: center;
+    }
+
+    .about-profile-image {
+        width: 250px;
+        height: 250px;
+    }
+
+    .experience-section {
+        flex-direction: column;
+        gap: 2rem;
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+
+    .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .projects-header,
+    .projects-grid {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+    
+    .advantages-section {
+        padding: 3rem 2rem;
+    }
+    
+    .advantages-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .advantage-item {
+        padding: 1.5rem;
+        min-height: 250px;
+    }
+    
+    .advantages-title {
+        font-size: 1.8rem;
+        margin-bottom: 2.5rem;
+    }
+    
+    .advantage-icon {
+        width: 70px;
+        height: 70px;
+        margin-bottom: 1rem;
+    }
+    
+    .advantage-title {
+        font-size: 1.1rem;
+    }
+    
+    .advantage-description {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 1rem;
+    }
+
+    .nav-links {
+        gap: 1rem;
+    }
+
+    .nav-links a {
+        font-size: 0.9rem;
+        padding: 0.4rem 1rem;
+    }
+
+    .about-content {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+
+    .about-profile-image {
+        width: 200px;
+        height: 200px;
+    }
+
+    .about-title h1 {
+        font-size: 1.8rem;
+    }
+
+    .about-tags {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .education-block,
+    .work-block {
+        padding: 1.5rem;
+    }
+
+    .experience-section {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+    
+    /* 手機版本保持一行顯示 */
+    .work-header {
+        flex-wrap: nowrap;
+        padding: 20px 16px;
+        min-height: 70px;
+    }
+    
+    .work-company {
+        font-size: 0.95rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: calc(100vw - 120px);
+    }
+    
+    .work-role {
+        font-size: 0.85rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .work-header-right {
+        margin-left: 0.5rem;
+    }
+    
+    .work-details.open {
+        padding: 0 20px 20px 36px;
+    }
+
+    .projects-header {
+        padding: 3rem 1.5rem 2rem;
+    }
+    
+    .projects-title {
+        font-size: 2rem;
+    }
+    
+    .projects-subtitle {
+        font-size: 1rem;
+    }
+    
+    .filter-buttons {
+        gap: 0.5rem;
+    }
+    
+    .filter-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+    }
+    
+    .projects-grid {
+        padding: 2rem 1.5rem 4rem;
+    }
+    
+    .project-image {
+        height: 250px;
+    }
+                .physics-tag {
+                transform: scale(0.6);
+                font-size: 1.5rem;
+                padding: 0.4rem 0.8rem;
+            }
+            
+            .legend {
+                left: 1rem;
+                top: 8rem;
+            }
+            
+            .legend-item {
+                font-size: 1rem;
+                gap: 0.6rem;
+            }
+            
+            .legend-dot {
+                width: 12px;
+                height: 12px;
+            }
+            
+            .physics-about-section {
+                padding: 2rem 1rem;
+            }
+            
+            .physics-about-title {
+                font-size: 2rem;
+            }
+            
+            .physics-about-subtitle {
+                font-size: 1rem;
+            }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        font-size: 1rem;
+    }
+
+    .nav-links a {
+        font-size: 0.8rem;
+        padding: 0.3rem 0.8rem;
+    }
+
+    .theme-toggle {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+    }
+
+    .about-content {
+        gap: 1.5rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+    }
+
+    .about-profile-image {
+        width: 180px;
+        height: 180px;
+    }
+
+
+
+    .about-title {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .about-title h1 {
+        font-size: 1.6rem;
+    }
+
+    .experience-section {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-bottom: 2rem;
+    }
+    
+    .work-header {
+        padding: 16px 12px;
+        min-height: 60px;
+    }
+    
+    .work-company {
+        max-width: calc(100vw - 100px);
+        font-size: 0.9rem;
+    }
+    
+    .work-role {
+        font-size: 0.8rem;
+    }
+    
+    .dropdown-arrow {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .work-dot {
+        width: 12px;
+        height: 12px;
+        margin-right: 12px;
+    }
+    
+    .work-period {
+        font-size: 0.8rem;
+        padding: 0.2rem 0.6rem;
+    }
+    
+    .work-details.open {
+        padding: 0 16px 16px 32px;
+    }
+    
+    .work-details li {
+        font-size: 0.85rem;
+    }
+
+    .projects-header {
+        padding: 2rem 1rem 1.5rem;
+    }
+    
+    .projects-title {
+        font-size: 1.8rem;
+    }
+    
+    .projects-subtitle {
+        font-size: 0.9rem;
+        margin-bottom: 2rem;
+    }
+    
+    .filter-buttons {
+        gap: 0.3rem;
+    }
+    
+    .filter-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+    }
+    
+    .projects-grid {
+        padding: 1.5rem 1rem 3rem;
+    }
+    
+    .project-info {
+        padding: 1rem;
+    }
+    
+    .project-title {
+        font-size: 1.1rem;
+    }
+    
+    .advantages-section {
+        padding: 2rem 1rem;
+    }
+    
+    .advantage-item {
+        padding: 1.25rem;
+        min-height: 220px;
+    }
+    
+    .advantages-title {
+        font-size: 1.6rem;
+        margin-bottom: 2rem;
+    }
+    
+    .advantage-icon {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .advantage-title {
+        font-size: 1rem;
+    }
+    
+    .advantage-description {
+        font-size: 0.9rem;
+    }
+                .physics-tag {
+                transform: scale(0.5);
+                font-size: 0.75rem;
+                padding: 0.3rem 0.6rem;
+            }
+            
+            .legend {
+                left: 0.5rem;
+                top: 7rem;
+            }
+            
+            .physics-about-title {
+                font-size: 1.8rem;
+            }
+}

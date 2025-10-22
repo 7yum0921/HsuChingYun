@@ -1,1 +1,483 @@
-# HsuChingYun
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHING YUN - Portfolio</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 固定導航欄 -->
+    <nav class="navbar">
+    <div class="logo">CHING YUN</div>
+        <div class="nav-links">
+            <a href="#" data-page="about">About</a>
+            <a href="#" data-page="projects">Projects</a>
+            <a href="/files/ChingYun_Resume_TC.pdf" download="ChingYun_Resume.pdf">Resume</a>
+            <div class="nav-indicator"></div>
+            <div class="theme-toggle">T</div>
+        </div>
+    </nav>
+
+    <!-- 首頁 -->
+<main id="home" class="page home-page">
+        <section class="hero-section">
+            <!-- <div class="profile-image-container">
+                 <div class="profile-image">
+                <div class="flip-card-inner">
+                <img src="/img/me.png" alt="me" class="profile-img default-img">
+                <img src="/img/me2.png" alt="me hover" class="profile-img hover-img">
+                </div>
+            </div> --> 
+            
+            <h1 class="greeting">Hello！我是 <span class="name-highlight">Ash</span></h1>
+            <p class="description">一名熱愛探索使用者想法的設計師</p>
+            
+            <div class="tags">
+                <span class="tag"># UX Research</span>
+                <span class="tag"># UX Designer</span>
+            </div>
+        </section>
+    </main>
+
+    <!-- About 頁面 -->
+    <main id="about" class="page about-page">
+        <div class="about-content">
+            <div class="about-profile">
+                <div class="about-profile-image">照片位置</div>
+            </div>
+            
+            <div class="about-info">
+                <div class="about-title">
+                    <h1>Hello！我是 <span class="name-highlight">Ash</span></h1>
+                    <div class="about-tags">
+                        <span class="about-tag"># UX Research</span>
+                        <span class="about-tag"># UX Designer</span>
+                    </div>
+                </div>
+                
+                <p class="about-description">
+                    我擁有 2 年以上的 UI/UX 專案經驗，擅長從初始概念到最終交付的完整設計流程，並能將複雜需求轉化為直覺且好用的解決方案。設計對我來說不只是把畫面做漂亮，而是幫使用者找到最自然、最舒服的體驗！
+                </p>
+                
+                <p class="about-background">
+                    我的背景為人機互動設計，專長於使用者研究、以人為中心的設計方法與體驗設計，專注於創造貼近人性需求、又能真正落地實現的解決方案。
+                </p>
+            </div>
+        </div>
+
+        <div class="experience-section">
+            <div class="education-block">
+                <h2 class="block-title">{ EDUCATION }</h2>
+                
+                <div class="experience-item">
+                    <div class="experience-content">
+                        <span class="work-dot"></span>
+                        <div class="experience-info">
+                            <div class="experience-title">國立臺北科技大學</div>
+                            <div class="experience-subtitle">互動設計系<span class="experience-type">研究所</span></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="experience-item">
+                    <div class="experience-content">
+                        <span class="work-dot"></span>
+                        <div class="experience-info">
+                            <div class="experience-title">國立聯合大學</div>
+                            <div class="experience-subtitle">文化創意與數位行銷學系<span class="experience-type">大學</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <div class="work-block">
+            <h2 class="block-title">{ WORK }</h2>
+
+            <div class="work-item">
+                <div class="work-header" onclick="toggleWorkDetails(this)">
+                    <div class="work-header-left">
+                        <span class="work-dot"></span>
+                        <div class="work-info">
+                            <div class="work-company">Riven設計｜UI/UX線上課程</div>
+                            <div class="work-role">教學助理、編輯</div>
+                        </div>
+                    </div>
+                    <div class="work-header-right">
+                        <!-- <div class="work-period">教學助理｜教材編輯</div> -->
+                        <span class="dropdown-arrow">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
+                                fill="none" stroke="currentColor" stroke-width="2" 
+                                viewBox="0 0 24 24">
+                                <path d="m6 9 6 6 6-6"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="work-details">
+                    <p><strong>2024-2025</strong></p>
+                    <ul>
+                        <li>參與 UI/UX 課程規劃，設計並優化 10+ 教材單元，將抽象設計流程轉化為易於理解的學習內容。</li>
+                        <li>協助學員進行研究、介面設計與工具操作，累計解答 50+ 個實作問題，涵蓋 Figma、Framer、Spline 等工具。</li>
+                        <li>根據學員回饋迭代教材，課程滿意度顯著提升，學員普遍反映學習體驗改善。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="work-item">
+                <div class="work-header" onclick="toggleWorkDetails(this)">
+                    <div class="work-header-left">
+                        <span class="work-dot"></span>
+                        <div class="work-info">
+                            <div class="work-company">高雄市政府文化局 駁二營運中心</div>
+                            <div class="work-role">暑期實習</div>
+                        </div>
+                    </div>
+                    <div class="work-header-right">
+                        <!-- <div class="work-period">暑期實習</div> -->
+                        <span class="dropdown-arrow">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
+                                fill="none" stroke="currentColor" stroke-width="2" 
+                                viewBox="0 0 24 24">
+                                <path d="m6 9 6 6 6-6"/>
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+                <div class="work-details">
+                    <p><strong>2022.07-2022.08</strong></p>
+                    <ul>
+                        <li>展覽支援：協助 2022 台灣設計展的展場佈展與撤展作業</li>
+                        <li>擔任導覽接待，帶領 10+ 團體/數百名觀眾，以互動方式解說展覽內容，顯著提升觀眾參與度</li>
+                        <li>跨部門協作並臨場解決突發狀況，累積文化展覽現場執行與體驗設計經驗</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+<!-- =============================================== ADVANTAGES 區域 =============================================== -->
+
+<div class="advantages-section">
+    <h2 class="advantages-title">{ ADVANTAGES }</h2>
+    <div class="advantages-grid">
+        <div class="advantage-item">
+            <div class="advantage-icon">
+                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                    <path d="m9 16 2 2 4-4"/>
+                </svg>
+            </div>
+            <h3 class="advantage-title">注重細節與使用者感受</h3>
+            <p class="advantage-description">能從使用者的語言、行為與情境中理解深層需求，透過敏度觀察進行方法歸納隱藏的痛點，讓設計決策更貼近使用者的核心價值。</p>
+        </div>
+
+        <div class="advantage-item">
+            <div class="advantage-icon">
+                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M12 1v6m0 6v6m11-7h-6m-6 0H1"/>
+                </svg>
+            </div>
+            <h3 class="advantage-title">問題定義能力</h3>
+            <p class="advantage-description">將複雜的挑戰轉化為清楚的設計問題，幫助團隊聚焦並找到解決方法。</p>
+        </div>
+
+        <div class="advantage-item">
+            <div class="advantage-icon">
+                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                    <circle cx="12" cy="12" r="4"/>
+                </svg>
+            </div>
+            <h3 class="advantage-title">視覺化與溝通</h3>
+            <p class="advantage-description">能將研究結果整理總結，轉化成易於理解的圖像與流程圖，促進團隊協作。</p>
+        </div>
+
+        <div class="advantage-item">
+            <div class="advantage-icon">
+                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+            </div>
+            <h3 class="advantage-title">情境導向與可及性</h3>
+            <p class="advantage-description">從不同使用情境思考多樣化的使用者條件出發，讓設計在更多情境下都能被理解與使用。</p>
+        </div>
+
+        <div class="advantage-item">
+            <div class="advantage-icon">
+                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                </svg>
+            </div>
+            <h3 class="advantage-title">跨團隊協作能力</h3>
+            <p class="advantage-description">具備 HTML 與 CSS 的理解，能以設計語言與技術語言雙向溝通，減少設計與開發間的落差。</p>
+        </div>
+
+        <div class="advantage-item">
+            <div class="advantage-icon">
+                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M9.663 17h4.673M12 3v1m6.364 1.636-.707.707M21 12h-1M4 12H3m3.343-5.657-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386L9.663 17z"/>
+                </svg>
+            </div>
+            <h3 class="advantage-title">敘事化設計能力</h3>
+            <p class="advantage-description">能把研究發現與洞察轉化成有故事/情境性的呈現，幫助團隊"感受到"使用者的需求，進而推動設計方向。</p>
+        </div>
+    </div>
+</div>
+<!-- ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝互動標籤區＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ -->
+<div class="physics-about-section">
+    <div class="physics-about-header">
+        <h1 class="physics-about-title">{ ABOUT ME }</h1>
+        <p class="physics-about-subtitle">A quick snapshot of my <span class="ux-dna-underline">SKILL DNA</span></p>
+    </div>
+
+    <div class="legend">
+        <div class="legend-item">
+            <div class="legend-dot tools"></div>
+            <span>Tools</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-dot traits"></div>
+            <span>Traits</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-dot methods"></div>
+            <span>Methods</span>
+        </div>
+    </div>
+
+    <canvas id="physics-canvas"></canvas>
+</div>
+
+
+
+</main>
+
+
+
+
+
+
+<!-- ===============================================Projects 頁面=============================================== -->
+<main id="projects" class="page projects-page">
+    <div class="projects-header">
+        <h1 class="projects-title">{ PROJECT }</h1>
+        <div class="projects-subtitle">
+            <span>選擇</span>
+            <span class="filter-highlight">專案類別</span>
+            <span>瀏覽相關作品</span>
+        </div>
+        
+        <!-- 篩選按鈕 -->
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="app">APP</button>
+            <button class="filter-btn" data-filter="web">WEB</button>
+            <button class="filter-btn" data-filter="ux-research">UX Research</button>
+            <button class="filter-btn" data-filter="ux-design">UX Design</button>
+            <button class="filter-btn" data-filter="rwd">RWD</button>
+            <button class="filter-btn" data-filter="vibe-coding">Vibe Coding</button>
+            <button class="filter-btn" data-filter="front-end">Front end</button>
+        </div>
+        
+        <div class="project-count">共 9 件</div>
+    </div>
+    
+    <!-- 專案網格 -->
+    <div class="projects-grid">
+        <!-- 專案卡片 1 -->
+        <div class="project-card" data-categories="app ux-design">
+            <div class="project-image">
+                <img src="/img/dating.png" alt="交友軟體" class="project-img">
+            </div>
+            <div class="project-info">
+                <h3 class="project-title">交友軟體 APP</h3>
+                <p class="project-description">描述.....</p>
+                <div class="project-tags">
+                    <span class="project-tag">App</span>
+                    <span class="project-tag">IOS</span>
+                    <span class="project-tag">UX Design</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 專案卡片 2 積木銀行-->
+        <div class="project-card" data-categories="app ux-research ux-design">
+            <div class="project-image">
+                <img src="/img/BRICKBANK.png" alt="積木銀行" class="project-img">
+            </div>
+            <div class="project-info">
+                <h3 class="project-title">BRICK BANK 積木銀行APP</h3>
+                <p class="project-description">描述.....</p>
+                <div class="project-tags">
+                    <span class="project-tag">App</span>
+                    <span class="project-tag">IOS</span>
+                    <span class="project-tag">UX Research</span>
+                    <span class="project-tag">UX Design</span>
+
+                </div>
+            </div>
+        </div>
+        
+        <!-- 專案卡片 3 寵物健康管理APP-->
+        <div class="project-card" data-categories="app ux-research ux-design ">
+            <div class="project-image">
+                <img src="/img/health.png" alt="寵物健康管理" class="project-img">
+            </div>
+            <div class="project-info">
+                <h3 class="project-title">寵物健康管理APP</h3>
+                <p class="project-description">描述.....</p>
+                <div class="project-tags">
+                    <span class="project-tag">App</span>
+                    <span class="project-tag">IOS</span>
+                    <span class="project-tag">UX Research</span>
+                    <span class="project-tag">UX Design</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 專案卡片 4 喵喵-->
+        <div class="project-card" data-categories="web front-end vibe-coding ux-design rwd">
+            <a href="https://meowmeowmoves.com/shop/" target="_blank" class="project-link">
+            <div class="project-image">
+                <span class="project-badge">Online</span>
+                <img src="/img/meowmeowmoves.png" alt="喵喵代儲網" class="project-img">
+            </div>
+            </a> 
+            <div class="project-info">
+                <h3 class="project-title">電商官網｜喵喵代儲網</h3>
+                <p class="project-description">使用 Wordpress Elementor 建置官網首頁、商品頁</p>
+                <div class="project-tags">
+                    <span class="project-tag">Web</span>
+                    <span class="project-tag">RWD</span>
+                    <span class="project-tag">Vibe Coding</span>                    
+                    <span class="project-tag">Front-end</span>
+                     <span class="project-tag">Wordpress</span>                   
+                </div>
+            </div>
+        </div>
+        <!-- 專案卡片 5 -->
+        <div class="project-card" data-categories="web ux-research ux-design rwd">
+            <div class="project-image">
+                <div class="project-placeholder">專案圖片</div>
+            </div>
+            <div class="project-info">
+                <h3 class="project-title">生成式AI×SCAMPER創意設計輔助網站</h3>
+                <p class="project-description">描述.....</p>
+                <div class="project-tags">
+                    <span class="project-tag">App</span>
+                    <span class="project-tag">App</span>
+                    <span class="project-tag">UX Research</span>
+                    <span class="project-tag">UX Design</span>
+                    <span class="project-tag">RWD</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 專案卡片 6 -->
+        <div class="project-card" data-categories="web ux-research ux-design rwd">
+            <div class="project-image">
+                <img src="/img/moxi.png" alt="交友軟體APP2" class="project-img">
+            </div>
+            <div class="project-info">
+                <h3 class="project-title">MOXI 交友軟體APP</h3>
+                <p class="project-description">描述.....</p>
+                <div class="project-tags">
+                    <span class="project-tag">App</span>
+                    <span class="project-tag">IOS</span>
+                    <span class="project-tag">UX Research</span>
+                    <span class="project-tag">UX Design</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 專案卡片 7 -->
+        <div class="project-card" data-categories="web ux-research ux-design rwd front-end">
+            <div class="project-image">
+                <img src="/img/quiz.png" alt="互動測驗網站" class="project-img">
+            </div>
+            <div class="project-info">
+                <h3 class="project-title">展場互動｜『症來電』互動測驗網站</h3>
+                <p class="project-description">大學畢業製作作品</p>
+                <div class="project-tags">
+                    <span class="project-tag">Web</span>
+                    <span class="project-tag">UX Research</span>
+                    <span class="project-tag">UX Design</span>
+                    <span class="project-tag">RWD</span>
+                    <span class="project-tag">Front-end</span>  
+                </div>
+            </div>
+        </div>
+        
+        <!-- 專案卡片 8 在地文化網站 蕃薯狀元-->
+        <div class="project-card" data-categories="web front-end rwd">
+            <a href="https://www.fanshucommunity.com/" target="_blank" class="project-link">    
+                <span class="project-badge">Online</span>
+                <div class="project-image">
+                <img src="/img/localweb.png" alt="在地文化網站" class="project-img">
+            </div>
+            </a>
+            <div class="project-info">
+                <h3 class="project-title">形象官網｜蕃薯狀元</h3>
+                <p class="project-description">使用 EasyStore 建置</p>
+                <div class="project-tags">
+                    <span class="project-tag">Web</span>
+                    <span class="project-tag">RWD</span>                   
+                    <span class="project-tag">Front-end</span>
+                    <span class="project-tag">EasyStore</span>                    
+                </div>
+            </div>
+        </div>
+
+        <!-- 專案卡片 9 -->
+        <div class="project-card" data-categories="web ux-design rwd">
+            <div class="project-image">
+                <img src="/img/b2b.png" alt="b2b網站" class="project-img">
+            </div>
+            <div class="project-info">
+                <h3 class="project-title">B2B電商管理後台設計</h3>
+                <p class="project-description">大學畢業製作作品</p>
+                <div class="project-tags">
+                    <span class="project-tag">Web</span>
+                    <span class="project-tag">UX Research</span>
+                    <span class="project-tag">UX Design</span>
+                    <span class="project-tag">RWD</span>
+                    <span class="project-tag">Front-end</span>  
+                </div>
+            </div>
+        </div>
+
+        <!-- 專案卡片 10 -->
+        <div class="project-card" data-categories="web ux-design rwd">
+            <div class="project-image">
+                <img src="/img/cloth.png" alt="試衣間" class="project-img">
+            </div>
+            <div class="project-info">
+                <h3 class="project-title">虛擬試衣間介面設計</h3>
+                <p class="project-description">描述</p>
+                <div class="project-tags">
+                    <span class="project-tag">Web</span>
+                    <span class="project-tag">UX Research</span>
+                    <span class="project-tag">UX Design</span>
+                    <span class="project-tag">RWD</span>
+                    <span class="project-tag">Front-end</span>  
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+
+    <script src="script.js"></script>
+</body>
+</html>
