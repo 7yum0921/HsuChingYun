@@ -8,16 +8,17 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
     background-color: #f5f5f5;
     color: #333;
-    overflow-x: hidden;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
+    overflow: hidden; /* ✅ 改成 hidden */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    height: 100vh; /* ✅ 加上這行 */
 }
 
 body::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera */
 }
 
-/* 固定導航欄 */
+/* =====================================固定導航欄================================ */
 .navbar {
     position: fixed;
     top: 0;
@@ -94,12 +95,16 @@ body::-webkit-scrollbar {
     color: #ff6b35;
 }
 
-/* 頁面容器 */
+/* ======================================頁面容器========================= */
 .page {
-    margin-top: 80px;
-    min-height: calc(100vh - 80px);
+    position: fixed; /* ✅ 改成 fixed */
+    top: 0px; /* ✅ 加上這行 */
+    left: 0; /* ✅ 加上這行 */
+    right: 0; /* ✅ 加上這行 */
+    bottom: 0; /* ✅ 加上這行 */
     display: none;
     overflow-x: hidden;
+    overflow-y: auto; /* 保持 auto */
     scrollbar-width: none;
     -ms-overflow-style: none;
 }
@@ -112,9 +117,14 @@ body::-webkit-scrollbar {
     display: block;
 }
 
-/* 首頁樣式 */
+
+/* =========================================首頁樣式============================ */
 .home-page {
     padding: 4rem 2rem;
+    overflow: hidden;
+    display: flex; /* ✅ 加上這行 */
+    align-items: center; /* ✅ 加上這行 */
+    justify-content: center; /* ✅ 加上這行 */
 }
 
 .hero-section {
@@ -124,31 +134,19 @@ body::-webkit-scrollbar {
 }
 
 .profile-image-container {
-    width: 280px;
-    height: 280px;
+    width: 320px;
+    height: 320px;
     margin: 0 auto 3rem;
 }
 
 .profile-image {
   width: 100%;
   height: 100%;
-  perspective: 1000px; /* 讓翻轉有立體感 */
   position: relative;
     overflow: hidden;   /* 確保頭不會被切 */
 
 }
 
-.flip-card-inner {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  transform-style: preserve-3d;
-  transition: transform 0.8s ease;
-}
-
-.profile-image:hover .flip-card-inner {
-  transform: rotateY(180deg);
-}
 
 .profile-img {
   width: 100%;
@@ -161,20 +159,11 @@ body::-webkit-scrollbar {
   border-radius: 50%; /* 保持圓形外觀 */
 }
 
-/* 正面 */
-.default-img {
-  transform: rotateY(0deg);
-}
-
-/* 背面 */
-.hover-img {
-  transform: rotateY(180deg);
-}
 
 .greeting {
     font-size: 2.5rem;
     font-weight: 700;
-    margin-bottom: 1rem;
+    margin-top: 3rem;
     color: #333;
 }
 
@@ -185,35 +174,61 @@ body::-webkit-scrollbar {
 .description {
     font-size: 1.3rem;
     color: #666;
-    margin-bottom: 2.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
     line-height: 1.6;
+    white-space: nowrap;           /* ✅ 讓文字不自動換行 */
+    display: inline-block;         /* ✅ 讓文字居中時保持一行 */
+    text-align: center;
 }
 
 .tags {
     display: flex;
     gap: 1rem;
     justify-content: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;   /* ✅ 不換行 */
+    white-space: nowrap; /* ✅ 保持同一行 */
 }
 
+
 .tag {
+    font-size: 14px;
     background-color: white;
     border: 2px solid #ddd;
-    padding: 0.7rem 1.5rem;
+    padding: 0.7rem 1rem;
     border-radius: 25px;
     font-weight: 500;
     color: #333;
-    transition: all 0.3s ease;
-    cursor: pointer;
 }
 
-.tag:hover {
-    border-color: #ff6b35;
-    color: #ff6b35;
-    transform: translateY(-2px);
+/* 底部向下按鈕 */
+.scroll-down-btn {
+  position: absolute;
+  left: 50%;
+  bottom: 60px;                  /* 與底部距離 */
+  transform: translateX(-50%);
+  cursor: pointer;
+  background-color: #ff6b35;
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  z-index: 10;
 }
 
-/* About 頁面樣式 */
+.scroll-down-btn:hover {
+  transform: translateX(-50%) translateY(5px);
+  box-shadow: 0 8px 25px rgba(255, 107, 53, 0.5);
+}
+
+
+
+/* ======================================About 頁面樣式=================================== */
 .about-page {
     margin: 0 auto;
 }
@@ -237,19 +252,26 @@ body::-webkit-scrollbar {
 
 .about-profile-image {
     width: 260px;
-    height: 260px;
-    border-radius: 50%;
-    object-fit: cover;
-    background-size: cover;
-    background-position: center;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-    background-color: #ddd;
+    height: 310px;
+    /* border-radius: 50%; */
+    /* overflow: hidden; */
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #999;
-    font-size: 1rem;
+    /* background-color: #ffffff; */
+    /* box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); */
+    flex-shrink: 0;
 }
+
+.about-profile-image img.about-img {
+    width: 100%;                     /* ✅ 圖片縮小到圓形內部 */
+    height: auto;
+    object-fit: contain;            /* ✅ 保持比例不裁切 */
+    /* border-radius: 50%; */
+    transform: translateY(10px);    /* ✅ 稍微下移，讓頭部更置中 */
+}
+
+
 
 .about-info {
     flex: 1;
@@ -339,20 +361,21 @@ body::-webkit-scrollbar {
 }
 
 .experience-title {
-    font-size: 1.05rem;
+    font-size: 1.2rem;
     font-weight: 600;
     color: #333;
     margin-bottom: 0.3rem;
 }
 
 .experience-subtitle {
-    font-size: 0.95rem;
+    font-size: 1rem;
     color: #666;
+    padding-top: 2px;
 }
 
 .experience-type {
     display: inline-block;
-    font-size: 0.75rem;
+    font-size: 0.85rem;
     background: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 12px;
@@ -567,127 +590,129 @@ body::-webkit-scrollbar {
 
 /* ====================================互動標籤區==================================== */
 
-        .physics-about-section {
-            background-color: #f0f0f0;
-            padding: 4rem 2rem;
-            min-height: 80vh;
-            position: relative;
-            overflow: hidden;
-        }
+.physics-about-section {
+    background-color: #f0f0f0;
+    padding: 4rem 2rem;
+    min-height: 80vh;
+    position: relative;
+    overflow: hidden;
+}
 
-        .physics-about-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
+.physics-about-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
 
-        .physics-about-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-        }
+.physics-about-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+}
 
-        .physics-about-subtitle {
-            font-size: 1.2rem;
-            color: #666;
-            margin-bottom: 2rem;
-        }
+.physics-about-subtitle {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 2rem;
+}
 
-        .ux-dna-underline {
-            text-decoration: underline;
-            text-decoration-thickness: 2px;
-            text-underline-offset: 4px;
-        }
+.ux-dna-underline {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+}
 
-        .legend {
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-            position: absolute;
-            left: 2rem;
-            top: 12rem;
-            z-index: 10;
-        }
+.legend {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    position: absolute;
+    left: 2rem;
+    top: 12rem;
+    z-index: 10;
+    pointer-events: none;
+}
 
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            font-size: 1.1rem;
-            font-weight: 500;
-        }
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
 
-        .legend-dot {
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-        }
+.legend-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+}
 
-        .legend-dot.tools {
-         border: 2px solid #333;
-        background-color: #ff6b35;
-        }
+.legend-dot.tools {
+    border: 2px solid #333;
+    background-color: #ff6b35;
+}
 
-        .legend-dot.traits {
-            background-color: #dadada;
-            border: 2px solid #333;
-        }
+.legend-dot.traits {
+    background-color: #dadada;
+    border: 2px solid #333;
+}
 
-        .legend-dot.methods {
-            background-color: #fff;
-            border: 2px solid #333;
-        }
+.legend-dot.methods {
+    background-color: #fff;
+    border: 2px solid #333;
+}
 
-        #physics-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 5;
-        }
-
-        .physics-tag {
-            position: absolute;
-            padding: 0.6rem 1.2rem;
-            border-radius: 25px;
-            font-weight: 500;
-            font-size: 1.5rem;
-            cursor: grab;
-            user-select: none;
-            transition: transform 0.1s ease;
-            white-space: nowrap;
-            z-index: 6;
-        }
-
-        .physics-tag:active {
-            cursor: grabbing;
-            transform: scale(1.05);
-        }
-
-        .physics-tag.tools {
-         border: 2px solid #333;
-        background-color: #ff6b35;
-            color: white;
-        }
-
-        .physics-tag.traits {
-            background-color: #dadada;
-            border: 2px solid #333;
-            color: white;
-        }
-
-        .physics-tag.methods {
-            background-color: white;
-            color: #333;
-            border: 2px solid #333;
-        }
+#physics-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none; /* Canvas 不接收事件 */
+}
 
 
+#physics-canvas:active {
+    cursor: grabbing;
+}
 
+.physics-tag {
+  position: absolute;
+  padding: 0.6rem 1.2rem;
+  border-radius: 25px;
+  font-weight: 500;
+  font-size: 1.5rem;
+  user-select: none;
+  white-space: nowrap;
+  z-index: 10;
+  cursor: grab;
+  transform-origin: center center;
+  pointer-events: auto; /* ✅ 標籤接收事件 */
+  will-change: transform; /* 性能優化 */
+}
+.physics-tag:active {
+  cursor: grabbing;
+}
 
+.physics-tag.tools {
+    border: 2px solid #333;
+    background-color: #ff6b35;
+    color: white;
+}
 
+.physics-tag.traits {
+    background-color: #dadada;
+    border: 2px solid #333;
+    color: white;
+}
+
+.physics-tag.methods {
+    background-color: white;
+    color: #333;
+    border: 2px solid #333;
+}
 
 
 
@@ -884,6 +909,90 @@ body::-webkit-scrollbar {
 .project-card.hidden {
     display: none;
 }
+
+/* ============================================= */
+/* 🔧 修正首頁動畫期間「擠在一起」的問題           */
+/* ============================================= */
+
+/* 讓動畫的頁面完全獨立定位，避免被 flex 壓縮 */
+.slide-up-out,
+.slide-up-in,
+.slide-down-out,
+.slide-down-in {
+  position: fixed !important;  /* ✅ 改為 fixed，脫離 flex context */
+  top: 80px;                   /* 與導覽列底對齊 */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: calc(100vh - 80px);  /* 避免滾動空間錯位 */
+  margin: 0;
+  padding: 0;
+  background: inherit;         /* 保留原頁面背景 */
+  overflow: hidden;
+  display: block !important;   /* 確保動畫期間仍顯示 */
+  z-index: 999;                /* 疊在其他元素之上 */
+}
+
+/* 確保首頁和 about 的內容不被動畫影響到 layout */
+.home-page,
+.about-page {
+  transform: none;
+  transition: none;
+}
+
+
+
+
+/* ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝動畫效果＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ */
+
+/* 頁面滑動動畫 */
+@keyframes slideUpOut {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-100%); opacity: 0; }
+}
+
+@keyframes slideUpIn {
+  0% { transform: translateY(100%); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+.slide-up-out {
+  animation: slideUpOut 0.7s ease forwards;
+  position: relative;
+  z-index: 5;
+}
+
+.slide-up-in {
+  animation: slideUpIn 0.7s ease forwards;
+  position: relative;
+  z-index: 6;
+}
+
+@keyframes slideDownOut {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(100%); opacity: 0; }
+}
+
+@keyframes slideDownIn {
+  0% { transform: translateY(-100%); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+.slide-down-out {
+  animation: slideDownOut 0.7s ease forwards;
+  position: relative;
+  z-index: 5;
+}
+
+.slide-down-in {
+  animation: slideDownIn 0.7s ease forwards;
+  position: relative;
+  z-index: 6;
+}
+
+
+
 
 /* 響應式設計 - ADVANTAGES */
 @media (max-width: 1024px) {
@@ -1120,38 +1229,11 @@ body::-webkit-scrollbar {
     .project-image {
         height: 250px;
     }
-                .physics-tag {
-                transform: scale(0.6);
-                font-size: 1.5rem;
-                padding: 0.4rem 0.8rem;
-            }
+.physics-about-subtitle{
+    margin-bottom: 50px;
+}
             
-            .legend {
-                left: 1rem;
-                top: 8rem;
-            }
-            
-            .legend-item {
-                font-size: 1rem;
-                gap: 0.6rem;
-            }
-            
-            .legend-dot {
-                width: 12px;
-                height: 12px;
-            }
-            
-            .physics-about-section {
-                padding: 2rem 1rem;
-            }
-            
-            .physics-about-title {
-                font-size: 2rem;
-            }
-            
-            .physics-about-subtitle {
-                font-size: 1rem;
-            }
+
 }
 
 @media (max-width: 480px) {
@@ -1299,18 +1381,7 @@ body::-webkit-scrollbar {
     .advantage-description {
         font-size: 0.9rem;
     }
-                .physics-tag {
-                transform: scale(0.5);
-                font-size: 0.75rem;
-                padding: 0.3rem 0.6rem;
-            }
-            
-            .legend {
-                left: 0.5rem;
-                top: 7rem;
-            }
-            
-            .physics-about-title {
-                font-size: 1.8rem;
-            }
+.physics-about-subtitle{
+    margin-bottom: 50px;
+}
 }
