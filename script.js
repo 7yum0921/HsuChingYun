@@ -1,473 +1,403 @@
-// 頁面切換功能
+// ==================== 頁面切換功能 ====================
 function showPage(pageId) {
-    // 隱藏所有頁面
-    document.querySelectorAll('.page').forEach(page => {
-        page.classList.remove('active');
-    });
+  document.querySelectorAll('.page').forEach(page => {
+    page.classList.remove('active');
+  });
 
-    // 顯示指定頁面
-    const targetPage = document.getElementById(pageId);
-    if (targetPage) {
-        targetPage.classList.add('active');
-    }
+  const targetPage = document.getElementById(pageId);
+  if (targetPage) {
+    targetPage.classList.add('active');
+    targetPage.scrollTop = 0;
+  }
 
-    // 更新導航欄指示器
-    updateNavigation(pageId);
+  updateNavigation(pageId);
 }
 
-// 更新導航欄指示器
 function updateNavigation(activePageId) {
-    const navLinks = document.querySelectorAll('.nav-links a');
-    const indicator = document.querySelector('.nav-indicator');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const indicator = document.querySelector('.nav-indicator');
 
-    navLinks.forEach(link => link.classList.remove('active'));
+  navLinks.forEach(link => link.classList.remove('active'));
+  const activeLink = document.querySelector(`[data-page="${activePageId}"]`);
 
-    const activeLink = document.querySelector(`[data-page="${activePageId}"]`);
-
-    if (activeLink) {
-        activeLink.classList.add('active');
-        const linkRect = activeLink.getBoundingClientRect();
-        const navRect = activeLink.parentElement.getBoundingClientRect();
-
-        indicator.style.width = `${linkRect.width}px`;
-        indicator.style.height = `${linkRect.height}px`;
-        indicator.style.left = `${linkRect.left - navRect.left}px`;
-        indicator.style.top = `${linkRect.top - navRect.top}px`;
-    } else if (activePageId === 'home') {
-        indicator.style.width = '0px';
-    }
+  if (activeLink) {
+    activeLink.classList.add('active');
+    const linkRect = activeLink.getBoundingClientRect();
+    const navRect = activeLink.parentElement.getBoundingClientRect();
+    indicator.style.width = `${linkRect.width}px`;
+    indicator.style.height = `${linkRect.height}px`;
+    indicator.style.left = `${linkRect.left - navRect.left}px`;
+    indicator.style.top = `${linkRect.top - navRect.top}px`;
+  } else if (activePageId === 'home') {
+    indicator.style.width = '0px';
+  }
 }
 
-// 導航連結點擊事件
+// ==================== 導航連結事件 ====================
 document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', function (e) {
-        const pageId = this.getAttribute('data-page');
-        
-        // 如果沒有 data-page 屬性(例如 Resume 下載連結),讓它正常運作
-        if (!pageId) {
-            return; // 不阻止預設行為,讓下載正常進行
-        }
-        
-        e.preventDefault(); // ✅ 阻止 # 的預設跳轉
-        showPage(pageId);
-    });
+  link.addEventListener('click', function (e) {
+    const pageId = this.getAttribute('data-page');
+    if (!pageId) return;
+    e.preventDefault();
+
+    const currentPage = document.querySelector('.page.active');
+    const targetPage = document.getElementById(pageId);
+    if (currentPage === targetPage) return;
+
+    if (pageId === 'about' && currentPage.id === 'home') {
+      scrollToAbout();
+      return;
+    }
+
+    fadeTransition(currentPage, targetPage);
+    updateNavigation(pageId);
+  });
 });
 
-// 點擊 logo 回到首頁
+function fadeTransition(fromPage, toPage) {
+  if (!fromPage || !toPage) return;
+
+  toPage.style.display = 'block';
+  toPage.style.opacity = '0';
+  toPage.classList.add('active');
+  fromPage.style.transition = 'opacity 0.5s ease';
+  toPage.style.transition = 'opacity 0.5s ease';
+  fromPage.style.opacity = '1';
+  toPage.style.opacity = '0';
+  void toPage.offsetWidth;
+
+  fromPage.style.opacity = '0';
+  toPage.style.opacity = '1';
+
+  setTimeout(() => {
+    fromPage.classList.remove('active');
+    fromPage.style.display = 'none';
+    fromPage.style.transition = '';
+    toPage.style.transition = '';
+
+    if (toPage.id === 'about') {
+      toPage.scrollTop = 0;
+      initPhysicsWhenAboutActive();
+    }
+  }, 500);
+}
+
+// ==================== Logo 回首頁 ====================
 document.querySelector('.logo').addEventListener('click', function (e) {
-    e.preventDefault(); // ✅ 確保不會 reload
-    showPage('home');
+  e.preventDefault();
+  const homePage = document.getElementById('home');
+  const currentActivePage = document.querySelector('.page.active');
+  if (currentActivePage === homePage) return;
+
+  document.querySelectorAll('.page').forEach(p => {
+    p.classList.remove('slide-up-out', 'slide-down-in', 'slide-up-in', 'slide-down-out');
+  });
+
+  homePage.style.display = 'block';
+  homePage.style.zIndex = '10';
+  homePage.style.transform = 'translateY(-100%)';
+  homePage.style.opacity = '0';
+  homePage.offsetHeight;
+
+  currentActivePage.classList.add('slide-down-out');
+  homePage.classList.add('slide-down-in');
+
+  const indicator = document.querySelector('.nav-indicator');
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  indicator.style.width = '0px';
+
+  setTimeout(() => {
+    currentActivePage.classList.remove('slide-down-out', 'active');
+    homePage.classList.remove('slide-down-in');
+    currentActivePage.style.display = 'none';
+    homePage.style.transform = '';
+    homePage.style.opacity = '';
+    homePage.style.zIndex = '';
+    homePage.style.display = '';
+    homePage.classList.add('active');
+    homePage.scrollTop = 0;
+  }, 700);
 });
 
-// 初始化導航指示器與顯示首頁
-document.addEventListener('DOMContentLoaded', function () {
-    showPage('home'); // ✅ 預設只顯示首頁
-});
+// ==================== 首頁滑動到 About ====================
+function scrollToAbout() {
+  const homePage = document.getElementById('home');
+  const aboutPage = document.getElementById('about');
 
-// 主題切換功能
-document.querySelector('.theme-toggle').addEventListener('click', function () {
-    console.log('Theme toggle clicked');
-});
+  homePage.classList.remove('slide-up-out', 'slide-down-in');
+  aboutPage.classList.remove('slide-up-in', 'slide-down-out');
 
-// 響應式導航指示器調整
-window.addEventListener('resize', function () {
-    const currentActivePage = document.querySelector('.page.active').id;
-    updateNavigation(currentActivePage);
-});
+  aboutPage.style.display = 'block';
+  aboutPage.style.transform = 'translateY(100%)';
+  aboutPage.style.opacity = '0';
+  aboutPage.scrollTop = 0;
+  aboutPage.style.zIndex = '10';
+  aboutPage.offsetHeight;
 
+  homePage.classList.add('slide-up-out');
+  aboutPage.classList.add('slide-up-in');
 
+  const aboutLink = document.querySelector('[data-page="about"]');
+  const indicator = document.querySelector('.nav-indicator');
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  if (aboutLink) {
+    aboutLink.classList.add('active');
+    const linkRect = aboutLink.getBoundingClientRect();
+    const navRect = aboutLink.parentElement.getBoundingClientRect();
+    indicator.style.width = `${linkRect.width}px`;
+    indicator.style.height = `${linkRect.height}px`;
+    indicator.style.left = `${linkRect.left - navRect.left}px`;
+    indicator.style.top = `${linkRect.top - navRect.top}px`;
+  }
 
-// Work 下拉展開功能
-function toggleWorkDetails(headerElement) {
-    const workItem = headerElement.closest('.work-item');
-    const arrow = headerElement.querySelector('.dropdown-arrow');
-    const details = workItem.querySelector('.work-details');
-    
-    // 切換展開狀態
-    details.classList.toggle('open');
-    arrow.classList.toggle('open');
-    
-    // 關閉其他展開的項目（可選）
-    const allWorkItems = document.querySelectorAll('.work-item');
-    allWorkItems.forEach(item => {
-        if (item !== workItem) {
-            const otherDetails = item.querySelector('.work-details');
-            const otherArrow = item.querySelector('.dropdown-arrow');
-            otherDetails.classList.remove('open');
-            otherArrow.classList.remove('open');
-        }
-    });
-}
-
-
-
-
-// Projects 頁面篩選功能
-document.addEventListener('DOMContentLoaded', function() {
-    // 篩選按鈕點擊事件
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const projectCards = document.querySelectorAll('.project-card');
-    const projectCount = document.querySelector('.project-count');
-
-    filterButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const filterValue = this.getAttribute('data-filter');
-            
-            // 移除所有按鈕的 active 類別
-            filterButtons.forEach(btn => btn.classList.remove('active'));
-            // 添加 active 類別到被點擊的按鈕
-            this.classList.add('active');
-            
-            // 篩選專案
-            let visibleCount = 0;
-            projectCards.forEach(card => {
-                const categories = card.getAttribute('data-categories').split(' ');
-                
-                if (filterValue === 'all' || categories.includes(filterValue)) {
-                    card.classList.remove('hidden');
-                    visibleCount++;
-                } else {
-                    card.classList.add('hidden');
-                }
-            });
-            
-            // 更新專案數量
-            projectCount.textContent = `共 ${visibleCount} 件`;
-        });
-    });
-    
-    // 專案卡片點擊事件（可選）
-    projectCards.forEach(card => {
-        card.addEventListener('click', function() {
-            // 這裡可以添加點擊專案卡片後的行為
-            // 例如：打開專案詳情頁面
-            console.log('點擊了專案：', this.querySelector('.project-title').textContent);
-        });
-    });
-});
-
-
-// ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝互動標籤
-
-// 物理標籤系統變數
-let physicsEngine, physicsWorld, physicsCanvas, physicsMouseConstraint;
-let physicsTags = [];
-let currentTagScale = 1;
-
-// 標籤數據
-const physicsTagData = {
-    tools: ['Figma', 'CSS', 'Notion', 'Framer', 'SPSS', 'HTML', 'Illustrator', 'Photoshop', 'RWD'],
-    traits: ['Collaboration', 'Persona', 'Prototype', 'Wireframe', 'Observation', 'Empathy', 'Human-Centered Design', 'Quantitative', 'Qualitative', 'Communication', 'Curiosity'],
-    methods: ['Usability Testing', 'Design Thinking', 'Empathy']
-};
-
-// 初始化物理標籤系統
-function initPhysicsTags() {
-    // 檢查 Matter.js 是否已載入
-    if (typeof Matter === 'undefined') {
-        console.error('Matter.js library not loaded');
-        return;
-    }
-
-    // 檢查是否在 About 頁面
-    const physicsSection = document.querySelector('.physics-about-section');
-    if (!physicsSection) return;
-
-    const Engine = Matter.Engine;
-    const World = Matter.World;
-    const Bodies = Matter.Bodies;
-    const Mouse = Matter.Mouse;
-    const MouseConstraint = Matter.MouseConstraint;
-
-    // 創建引擎
-    physicsEngine = Engine.create();
-    physicsWorld = physicsEngine.world;
-    physicsEngine.world.gravity.y = 0.8;
-
-    // 獲取畫布
-    physicsCanvas = document.getElementById('physics-canvas');
-    
-    // 設定畫布大小，確保與容器完全匹配
-    const rect = physicsSection.getBoundingClientRect();
-    physicsCanvas.width = rect.width;
-    physicsCanvas.height = rect.height;
-
-    // 創建邊界 - 調整位置確保標籤不會超出
-    const thickness = 20;
-    const boundaries = [
-        // 底部邊界 - 稍微往上移，確保標籤停在可見區域
-        Bodies.rectangle(physicsCanvas.width / 2, physicsCanvas.height - thickness / 2, physicsCanvas.width + 100, thickness, { isStatic: true }),
-        // 左邊界
-        Bodies.rectangle(thickness / 2, physicsCanvas.height / 2, thickness, physicsCanvas.height, { isStatic: true }),
-        // 右邊界
-        Bodies.rectangle(physicsCanvas.width - thickness / 2, physicsCanvas.height / 2, thickness, physicsCanvas.height, { isStatic: true })
-    ];
-    World.add(physicsWorld, boundaries);
-
-    // 更新縮放比例
-    updateTagScale();
-
-    // 創建標籤
-    createPhysicsTags();
-
-    // 設定滑鼠控制
-    const mouse = Mouse.create(physicsCanvas);
-    physicsMouseConstraint = MouseConstraint.create(physicsEngine, {
-        mouse: mouse,
-        constraint: {
-            stiffness: 0.8,
-            render: {
-                visible: false
-            }
-        }
-    });
-    World.add(physicsWorld, physicsMouseConstraint);
-
-    // 開始引擎
-    Engine.run(physicsEngine);
-
-    // 開始渲染循環
-    renderPhysicsTags();
-}
-
-// 更新標籤縮放比例
-function updateTagScale() {
-    const width = window.innerWidth;
-    if (width <= 480) {
-        currentTagScale = 0.5;
-    } else if (width <= 768) {
-        currentTagScale = 0.6;
-    } else if (width <= 1024) {
-        currentTagScale = 0.8;
-    } else {
-        currentTagScale = 1;
-    }
-}
-
-// 創建物理標籤
-function createPhysicsTags() {
-    const container = document.querySelector('.physics-about-section');
-    if (!container) return;
-    
-    // 清除現有標籤
-    physicsTags.forEach(tag => {
-        if (tag.element && tag.element.parentNode) {
-            tag.element.parentNode.removeChild(tag.element);
-        }
-        if (tag.body && physicsWorld) {
-            Matter.World.remove(physicsWorld, tag.body);
-        }
-    });
-    physicsTags = [];
-
-    let allTags = [];
-    Object.keys(physicsTagData).forEach(category => {
-        physicsTagData[category].forEach(text => {
-            allTags.push({ text, category });
-        });
-    });
-
-    // 打亂標籤順序
-    allTags = allTags.sort(() => Math.random() - 0.5);
-
-    allTags.forEach((tagInfo, index) => {
-        // 創建 DOM 元素
-        const element = document.createElement('div');
-        element.className = `physics-tag ${tagInfo.category}`;
-        element.textContent = tagInfo.text;
-        container.appendChild(element);
-
-        // 強制渲染以獲取準確尺寸
-        element.style.visibility = 'hidden';
-        element.style.position = 'absolute';
-        const rect = element.getBoundingClientRect();
-        element.style.visibility = 'visible';
-        
-        const width = rect.width;
-        const height = rect.height;
-
-        // 隨機初始位置（上方區域），確保在邊界內
-        const margin = width / 2 + 20;
-        const x = Math.random() * (physicsCanvas.width - margin * 2) + margin;
-        const y = Math.random() * 150 + 50; // 降低初始高度，讓標籤更容易看到
-
-        // 創建物理體 - 使用實際 DOM 尺寸
-        const body = Matter.Bodies.rectangle(x, y, width, height, {
-            restitution: 0.3,
-            friction: 0.4,
-            density: 0.001,
-            frictionAir: 0.01
-        });
-
-        // 存儲標籤信息
-        physicsTags.push({
-            element,
-            body,
-            width,
-            height
-        });
-
-        Matter.World.add(physicsWorld, body);
-
-        // 設定拖曳事件
-        setupTagDragEvents(element, body);
-    });
-}
-
-// 設定標籤拖曳事件
-function setupTagDragEvents(element, body) {
-    let isDragging = false;
-
-    element.addEventListener('mousedown', (e) => {
-        isDragging = true;
-        element.style.zIndex = '10';
-    });
-
-    element.addEventListener('mouseup', () => {
-        isDragging = false;
-        element.style.zIndex = '6';
-    });
-
-    // 觸控支援
-    element.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        isDragging = true;
-        element.style.zIndex = '10';
-    });
-
-    element.addEventListener('touchend', (e) => {
-        e.preventDefault();
-        isDragging = false;
-        element.style.zIndex = '6';
-    });
-}
-
-// 渲染物理標籤
-function renderPhysicsTags() {
-    // 更新標籤位置
-    physicsTags.forEach(tag => {
-        if (tag.element && tag.body) {
-            const pos = tag.body.position;
-            const angle = tag.body.angle;
-            
-            // 確保標籤不會超出邊界
-            const maxX = physicsCanvas.width - tag.width / 2;
-            const minX = tag.width / 2;
-            const maxY = physicsCanvas.height - tag.height / 2;
-            const minY = tag.height / 2;
-            
-            let finalX = pos.x;
-            let finalY = pos.y;
-            
-            // 邊界檢查和修正
-            if (pos.x > maxX) {
-                finalX = maxX;
-                Matter.Body.setPosition(tag.body, { x: finalX, y: pos.y });
-            } else if (pos.x < minX) {
-                finalX = minX;
-                Matter.Body.setPosition(tag.body, { x: finalX, y: pos.y });
-            }
-            
-            if (pos.y > maxY) {
-                finalY = maxY;
-                Matter.Body.setPosition(tag.body, { x: pos.x, y: finalY });
-            } else if (pos.y < minY) {
-                finalY = minY;
-                Matter.Body.setPosition(tag.body, { x: pos.x, y: finalY });
-            }
-            
-            tag.element.style.left = (finalX - tag.width / 2) + 'px';
-            tag.element.style.top = (finalY - tag.height / 2) + 'px';
-            tag.element.style.transform = `rotate(${angle}rad) scale(${currentTagScale})`;
-        }
-    });
-
-    requestAnimationFrame(renderPhysicsTags);
-}
-
-// 處理視窗大小調整
-function handlePhysicsResize() {
-    const container = document.querySelector('.physics-about-section');
-    if (!container || !physicsCanvas) return;
-
-    // 更新畫布大小
-    const rect = container.getBoundingClientRect();
-    physicsCanvas.width = rect.width;
-    physicsCanvas.height = rect.height;
-
-    // 更新縮放
-    const oldScale = currentTagScale;
-    updateTagScale();
-
-    // 清空物理世界
-    Matter.World.clear(physicsWorld, false);
-
-    // 重新創建邊界
-    const thickness = 20;
-    const boundaries = [
-        // 底部邊界
-        Matter.Bodies.rectangle(physicsCanvas.width / 2, physicsCanvas.height - thickness / 2, physicsCanvas.width + 100, thickness, { isStatic: true }),
-        // 左邊界
-        Matter.Bodies.rectangle(thickness / 2, physicsCanvas.height / 2, thickness, physicsCanvas.height, { isStatic: true }),
-        // 右邊界
-        Matter.Bodies.rectangle(physicsCanvas.width - thickness / 2, physicsCanvas.height / 2, thickness, physicsCanvas.height, { isStatic: true })
-    ];
-    Matter.World.add(physicsWorld, boundaries);
-
-    // 重新添加滑鼠控制
-    Matter.World.add(physicsWorld, physicsMouseConstraint);
-
-    // 如果縮放改變，重新創建標籤
-    if (oldScale !== currentTagScale) {
-        createPhysicsTags();
-    } else {
-        // 重新添加現有標籤的物理體
-        physicsTags.forEach(tag => {
-            if (tag.body) {
-                // 調整標籤位置確保在新邊界內
-                const pos = tag.body.position;
-                const newX = Math.min(Math.max(pos.x, tag.width / 2 + 20), physicsCanvas.width - tag.width / 2 - 20);
-                const newY = Math.min(pos.y, physicsCanvas.height - tag.height / 2 - 20);
-                
-                Matter.Body.setPosition(tag.body, { x: newX, y: newY });
-                Matter.World.add(physicsWorld, tag.body);
-            }
-        });
-    }
-}
-
-// 當頁面切換到 About 時初始化物理標籤系統
-function initPhysicsWhenAboutActive() {
-    const aboutPage = document.getElementById('about');
-    if (aboutPage && aboutPage.classList.contains('active')) {
-        // 延遲初始化，確保 DOM 完全渲染
-        setTimeout(() => {
-            initPhysicsTags();
-        }, 100);
-    }
-}
-
-// 修改原有的頁面切換函數，加入物理標籤初始化
-const originalShowPage = showPage;
-showPage = function(pageId) {
-    originalShowPage(pageId);
-    if (pageId === 'about') {
-        initPhysicsWhenAboutActive();
-    }
-};
-
-// 頁面載入完成時初始化
-document.addEventListener('DOMContentLoaded', function() {
-    // 檢查是否一開始就在 About 頁面
+  setTimeout(() => {
+    homePage.classList.remove('slide-up-out', 'active');
+    aboutPage.classList.remove('slide-up-in');
+    homePage.style.display = 'none';
+    aboutPage.style.transform = '';
+    aboutPage.style.opacity = '';
+    aboutPage.style.zIndex = '';
+    aboutPage.classList.add('active');
+    aboutPage.scrollTop = 0;
     initPhysicsWhenAboutActive();
+  }, 700);
+}
+
+// ==================== Work 下拉 ====================
+function toggleWorkDetails(headerElement) {
+  const workItem = headerElement.closest('.work-item');
+  const arrow = headerElement.querySelector('.dropdown-arrow');
+  const details = workItem.querySelector('.work-details');
+  details.classList.toggle('open');
+  arrow.classList.toggle('open');
+  document.querySelectorAll('.work-item').forEach(item => {
+    if (item !== workItem) {
+      item.querySelector('.work-details').classList.remove('open');
+      item.querySelector('.dropdown-arrow').classList.remove('open');
+    }
+  });
+}
+
+// ==================== Projects 篩選 ====================
+document.addEventListener('DOMContentLoaded', function () {
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const projectCards = document.querySelectorAll('.project-card');
+  const projectCount = document.querySelector('.project-count');
+  filterButtons.forEach(btn => {
+    btn.addEventListener('click', function () {
+      const filterValue = this.getAttribute('data-filter');
+      filterButtons.forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      let visible = 0;
+      projectCards.forEach(card => {
+        const cats = card.getAttribute('data-categories').split(' ');
+        if (filterValue === 'all' || cats.includes(filterValue)) {
+          card.classList.remove('hidden');
+          visible++;
+        } else card.classList.add('hidden');
+      });
+      projectCount.textContent = `共 ${visible} 件`;
+    });
+  });
 });
 
-// 視窗大小改變時重新調整
-window.addEventListener('resize', handlePhysicsResize);
+// ==================== 物理標籤 ====================
+let physicsEngine, physicsWorld, physicsCanvas, physicsMouseConstraint, physicsRender;
+let physicsTags = [];
 
-// 防止觸控滾動干擾
-document.addEventListener('touchmove', function(e) {
-    if (e.target.classList.contains('physics-tag')) {
-        e.preventDefault();
+const physicsTagData = {
+  tools: ['Figma', 'CSS', 'Notion', 'Framer', 'SPSS', 'HTML', 'Illustrator', 'Photoshop', 'RWD'],
+  traits: ['Collaboration', 'Persona', 'Prototype', 'Wireframe', 'Observation', 'Empathy', 'Human-Centered Design', 'Quantitative', 'Qualitative', 'Communication', 'Curiosity'],
+  methods: ['Usability Testing', 'Design Thinking', 'Empathy']
+};
+
+function initPhysicsTags() {
+  if (typeof Matter === 'undefined') return;
+  const physicsSection = document.querySelector('.physics-about-section');
+  if (!physicsSection) return;
+
+  // 清理舊實例
+  if (physicsEngine) {
+    Matter.Engine.clear(physicsEngine);
+    Matter.World.clear(physicsWorld);
+  }
+
+  const { Engine, World, Bodies, Mouse, MouseConstraint, Events } = Matter;
+  
+  physicsEngine = Engine.create();
+  physicsWorld = physicsEngine.world;
+  physicsEngine.world.gravity.y = window.innerWidth <= 480 ? 1.4 : window.innerWidth <= 768 ? 1.1 : 0.8;
+
+  physicsCanvas = document.getElementById('physics-canvas');
+  const rect = physicsSection.getBoundingClientRect();
+  physicsCanvas.width = rect.width;
+  physicsCanvas.height = rect.height;
+
+  // 創建邊界
+  const thickness = 50;
+  const boundaries = [
+    Bodies.rectangle(rect.width / 2, rect.height + thickness / 2, rect.width, thickness, { isStatic: true, label: 'bottom' }),
+    Bodies.rectangle(-thickness / 2, rect.height / 2, thickness, rect.height, { isStatic: true, label: 'left' }),
+    Bodies.rectangle(rect.width + thickness / 2, rect.height / 2, thickness, rect.height, { isStatic: true, label: 'right' }),
+    Bodies.rectangle(rect.width / 2, -thickness / 2, rect.width, thickness, { isStatic: true, label: 'top' })
+  ];
+  World.add(physicsWorld, boundaries);
+
+  createPhysicsTags();
+
+  // ✅ 關鍵：滑鼠綁定到容器而非 canvas
+  const mouse = Mouse.create(physicsSection);
+  mouse.pixelRatio = window.devicePixelRatio || 1;
+
+  physicsMouseConstraint = MouseConstraint.create(physicsEngine, {
+    mouse: mouse,
+    constraint: {
+      stiffness: 0.2,
+      render: { visible: false }
     }
-}, { passive: false });
+  });
+
+  World.add(physicsWorld, physicsMouseConstraint);
+
+  // 拖曳視覺效果
+  let draggedTag = null;
+  
+  Events.on(physicsMouseConstraint, 'startdrag', (e) => {
+    const tag = physicsTags.find(t => t.body === e.body);
+    if (tag) {
+      draggedTag = tag;
+      tag.element.style.cursor = 'grabbing';
+      tag.element.style.zIndex = '100';
+    }
+  });
+
+  Events.on(physicsMouseConstraint, 'enddrag', () => {
+    if (draggedTag) {
+      draggedTag.element.style.cursor = 'grab';
+      draggedTag.element.style.zIndex = '10';
+      draggedTag = null;
+    }
+  });
+
+  // 阻止頁面滾動
+  physicsSection.addEventListener('touchmove', (e) => {
+    if (e.cancelable) e.preventDefault();
+  }, { passive: false });
+
+  // 啟動引擎
+  Matter.Runner.run(physicsEngine);
+  renderPhysicsTags();
+}
+
+function createPhysicsTags() {
+  const container = document.querySelector('.physics-about-section');
+  if (!container) return;
+
+  // 清理舊標籤
+  physicsTags.forEach(tag => {
+    if (tag.element) tag.element.remove();
+    if (tag.body) Matter.World.remove(physicsWorld, tag.body);
+  });
+  physicsTags = [];
+
+  // 整合所有標籤
+  let allTags = [];
+  Object.keys(physicsTagData).forEach(cat => {
+    physicsTagData[cat].forEach(text => allTags.push({ text, cat }));
+  });
+  
+  // 隨機排序
+  allTags.sort(() => Math.random() - 0.5);
+
+  allTags.forEach((tagInfo, index) => {
+    // 創建 DOM 元素
+    const el = document.createElement('div');
+    el.className = `physics-tag ${tagInfo.cat}`;
+    el.textContent = tagInfo.text;
+    el.style.position = 'absolute';
+    container.appendChild(el);
+
+    // 測量尺寸
+    const r = el.getBoundingClientRect();
+    const w = r.width;
+    const h = r.height;
+
+    // 隨機初始位置
+    const padding = 50;
+    const x = padding + Math.random() * (physicsCanvas.width - w - padding * 2) + w / 2;
+    const maxY = window.innerWidth <= 480 ? physicsCanvas.height / 3 :
+                 window.innerWidth <= 768 ? physicsCanvas.height / 2 :
+                 physicsCanvas.height / 2.5;
+    const y = Math.random() * maxY;
+
+    // ✅ 創建物理剛體
+    const body = Matter.Bodies.rectangle(x, y, w, h, {
+      restitution: 0.5,
+      friction: 0.1,
+      frictionAir: 0.01,
+      density: 0.001,
+      angle: (Math.random() - 0.5) * 0.3,
+      chamfer: { radius: 12 },
+      label: `tag-${index}`
+    });
+
+    // 初始速度
+    Matter.Body.setVelocity(body, {
+      x: (Math.random() - 0.5) * 3,
+      y: Math.random() * 2
+    });
+    Matter.Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.15);
+
+    physicsTags.push({ element: el, body, width: w, height: h });
+    Matter.World.add(physicsWorld, body);
+  });
+}
+
+function renderPhysicsTags() {
+  physicsTags.forEach(tag => {
+    if (!tag.element || !tag.body) return;
+
+    const pos = tag.body.position;
+    const angle = tag.body.angle;
+
+    // ✅ 使用 translate(-50%, -50%) 確保中心對齊
+    tag.element.style.left = `${pos.x}px`;
+    tag.element.style.top = `${pos.y}px`;
+    
+    // 拖曳時保持水平
+    if (physicsMouseConstraint && physicsMouseConstraint.body === tag.body) {
+      tag.element.style.transform = `translate(-50%, -50%) scale(1.08)`;
+    } else {
+      tag.element.style.transform = `translate(-50%, -50%) rotate(${angle}rad)`;
+    }
+  });
+
+  requestAnimationFrame(renderPhysicsTags);
+}
+
+function handlePhysicsResize() {
+  const section = document.querySelector('.physics-about-section');
+  if (!section || !physicsCanvas) return;
+  
+  const rect = section.getBoundingClientRect();
+  physicsCanvas.width = rect.width;
+  physicsCanvas.height = rect.height;
+  
+  // 重新初始化
+  initPhysicsTags();
+}
+
+function initPhysicsWhenAboutActive() {
+  const about = document.getElementById('about');
+  if (about && about.classList.contains('active')) {
+    setTimeout(() => {
+      initPhysicsTags();
+      window.addEventListener('resize', handlePhysicsResize);
+    }, 300);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  showPage('home');
+  initPhysicsWhenAboutActive();
+});
